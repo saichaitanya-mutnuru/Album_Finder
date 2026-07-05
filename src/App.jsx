@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const clientId = "YOUR_CLIENT_ID_HERE";
+  const clientId = "484ac913dd5b453cb32c12ec8945fb3c";
 
   // ✅ clean + stable redirect logic
   const redirectUri = import.meta.env.DEV
