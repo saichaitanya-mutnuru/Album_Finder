@@ -1,16 +1,53 @@
-# React + Vite
+# 🎵 Album Finder (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React application to search and display music albums using an API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 How to Run This Project
 
-## React Compiler
+### Step 1: Install dependencies
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Step 2: Start development server
+npm run dev
 
-## Expanding the ESLint configuration
+### Step 3: Open in browser
+http://localhost:5173
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Build Project
+
+npm run build
+
+---
+
+## 👨‍💻 Tech Stack
+- React
+- Vite
+- JavaScript
+- CSS
+- Fetch API
+
+---
+
+## 📁 Folder Structure
+album-finder/
+├── public/
+├── src/
+├── package.json
+└── index.html
+
+---
+
+## ✨ Features
+- Search albums
+- Display album details
+- Fast UI with Vite
+
+---
+
+## 📜 Author
+Sai Chaitanya Mutnuru
+GitHub: https://github.com/saichaitanya-mutnuru
