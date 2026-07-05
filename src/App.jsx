@@ -109,7 +109,7 @@ function App() {
         window.history.replaceState({}, document.title, "/");
       });
     }
-  }, []);
+  },);
 
   // ---------------- SEARCH ----------------
 
