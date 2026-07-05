@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const clientId = "484ac913dd5b453cb32c12ec8945fb3c";
-  const redirectUri = window.location.origin;
+  const clientId = "YOUR_CLIENT_ID_HERE";
+
+  // ✅ clean + stable redirect logic
+  const redirectUri = import.meta.env.DEV
+    ? "http://127.0.0.1:5173"
+    : "https://album-finder-msc.vercel.app";
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -20,8 +24,8 @@ function App() {
   const generateRandomString = (length) => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
     const values = crypto.getRandomValues(new Uint8Array(length));
+    let result = "";
     for (let i = 0; i < length; i++) {
       result += chars[values[i] % chars.length];
     }
@@ -30,8 +34,7 @@ function App() {
 
   const sha256 = async (plain) => {
     const encoder = new TextEncoder();
-    const data = encoder.encode(plain);
-    return crypto.subtle.digest("SHA-256", data);
+    return crypto.subtle.digest("SHA-256", encoder.encode(plain));
   };
 
   const base64encode = (input) => {
@@ -44,8 +47,12 @@ function App() {
   // ---------------- LOGIN ----------------
 
   const handleLogin = async () => {
-    const codeVerifier = generateRandomString(64);
+    if (!clientId) {
+      alert("Client ID missing");
+      return;
+    }
 
+    const codeVerifier = generateRandomString(64);
     const hashed = await sha256(codeVerifier);
     const codeChallenge = base64encode(hashed);
 
@@ -65,7 +72,7 @@ function App() {
     window.location.href = url;
   };
 
-  // ---------------- GET ACCESS TOKEN ----------------
+  // ---------------- TOKEN EXCHANGE ----------------
 
   const getToken = async (code) => {
     const codeVerifier = localStorage.getItem("code_verifier");
@@ -90,11 +97,11 @@ function App() {
     return data.access_token;
   };
 
-  // ---------------- HANDLE CALLBACK ----------------
+  // ---------------- CALLBACK HANDLING ----------------
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
     if (code) {
       getToken(code).then((accessToken) => {
@@ -123,9 +130,9 @@ function App() {
       );
 
       const data = await res.json();
-      setAlbums(data.albums.items || []);
-    } catch (error) {
-      console.error(error);
+      setAlbums(data.albums?.items || []);
+    } catch (err) {
+      console.error(err);
       setAlbums([]);
     }
 
@@ -161,7 +168,7 @@ function App() {
       {loading && <div className="spinner"></div>}
 
       {!loading && hasSearched && albums.length === 0 && (
-        <p className="no-results">No albums found</p>
+        <p>No albums found</p>
       )}
 
       {!loading && hasSearched && albums.length > 0 && (
